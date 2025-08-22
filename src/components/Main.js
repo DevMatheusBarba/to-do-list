@@ -9,6 +9,7 @@ export default class Main extends Component {
   state = {
     novaTarefa: '',
     tarefas: [],
+    index: -1,
   };
 
   handleChange = (e) => {
@@ -17,18 +18,41 @@ export default class Main extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { tarefas } = this.state;
+    const { tarefas, index } = this.state;
     let { novaTarefa } = this.state;
 
+    console.log(index);
     novaTarefa = novaTarefa.trim();
     novaTarefa = novaTarefa.toLowerCase();
 
     if (!novaTarefa) return alert('Tarefas em branco!');
     if (tarefas.includes(novaTarefa)) return alert('Tarefa já existente!');
 
-    const newTarefas = [...tarefas, novaTarefa];
+    if (index === -1) {
+      return this.setState({ tarefas: [...tarefas, novaTarefa], novaTarefa: '' });
+    }
+    tarefas[index] = novaTarefa;
+    return this.setState({
+      tarefas,
+      novaTarefa: '',
+      index: -1, // Reset index after editing
+    });
+  };
 
-    return this.setState({ tarefas: newTarefas, novaTarefa: '' });
+  handleDelete = (e, index) => {
+    const { tarefas } = this.state;
+    const novasTarefas = [...tarefas];
+    novasTarefas.splice(index, 1);
+    return this.setState({ tarefas: novasTarefas });
+  };
+
+  handleEdit = (e, index) => {
+    const { tarefas } = this.state;
+
+    this.setState({
+      index,
+      novaTarefa: tarefas[index],
+    });
   };
 
   render() {
@@ -51,12 +75,12 @@ export default class Main extends Component {
         </form>
 
         <ul className="tarefas">
-          {tarefas.map((tarefa) => (
+          {tarefas.map((tarefa, index) => (
             <li key={tarefa}>
               {tarefa}
               <span>
-                <FaEdit className="edit" />
-                <FaWindowClose className="delete" />
+                <FaEdit onClick={(e) => this.handleEdit(e, index)} className="edit" />
+                <FaWindowClose onClick={(e) => this.handleDelete(e, index)} className="delete" />
               </span>
             </li>
           ))}
