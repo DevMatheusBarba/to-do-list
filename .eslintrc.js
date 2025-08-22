@@ -4,6 +4,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
+  parser: '@babel/eslint-parser',
   extends: ['airbnb'],
   parserOptions: {
     ecmaVersion: 12,
@@ -11,14 +12,12 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    requireConfigFile: false,
   },
   plugins: ['react', 'react-hooks'],
   rules: {
-    // Não precisa importar React no JSX moderno
-    'react/react-in-jsx-scope': 'off',
     // Permite JSX em arquivos .js e .jsx
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    // Permite exportação sem default
-    'import/prefer-default-export': 'off',
+    'react/state-in-constructor': [0],
   },
 };
