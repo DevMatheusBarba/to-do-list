@@ -8,16 +8,27 @@ import './Main.css';
 export default class Main extends Component {
   state = {
     novaTarefa: '',
-    tarefas: [
-      'Estudar React',
-      'Estudar JavaScript',
-      'Estudar TypeScript',
-      'Estudar Node.js',
-    ],
+    tarefas: [],
   };
 
   handleChange = (e) => {
     this.setState({ novaTarefa: e.target.value });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { tarefas } = this.state;
+    let { novaTarefa } = this.state;
+
+    novaTarefa = novaTarefa.trim();
+    novaTarefa = novaTarefa.toLowerCase();
+
+    if (!novaTarefa) return alert('Tarefas em branco!');
+    if (tarefas.includes(novaTarefa)) return alert('Tarefa já existente!');
+
+    const newTarefas = [...tarefas, novaTarefa];
+
+    return this.setState({ tarefas: newTarefas, novaTarefa: '' });
   };
 
   render() {
@@ -28,7 +39,7 @@ export default class Main extends Component {
 
         <h1>Lista de Tarefas</h1>
 
-        <form action="#" className="form">
+        <form onSubmit={this.handleSubmit} action="#" className="form">
           <input
             onChange={this.handleChange}
             type="text"
@@ -43,10 +54,10 @@ export default class Main extends Component {
           {tarefas.map((tarefa) => (
             <li key={tarefa}>
               {tarefa}
-              <div>
+              <span>
                 <FaEdit className="edit" />
                 <FaWindowClose className="delete" />
-              </div>
+              </span>
             </li>
           ))}
         </ul>
