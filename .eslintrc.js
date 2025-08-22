@@ -19,5 +19,6 @@ module.exports = {
     // Permite JSX em arquivos .js e .jsx
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/state-in-constructor': [0],
+    'react/forbid-prop-types': [0],
   },
 };
