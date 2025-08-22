@@ -60,6 +60,11 @@
   background-color: #51c5de;
 }
 
+.tarefas li spann{
+  display: flex;
+  align-items: center;
+}
+
 .edit {
   margin-right: 15px;
   color: #51c5de;
